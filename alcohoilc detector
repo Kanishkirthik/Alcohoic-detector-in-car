@@ -1,0 +1,54 @@
+#define sw 2
+#define motor 3
+#define sensor 4
+#define buzzer 5
+#define IR 6
+int flag=1;
+void setup()
+{
+  pinMode(sw,INPUT_PULLUP);//Congigure pin number 2 as INPUT
+  pinMode(sensor,INPUT);
+  pinMode(IR,INPUT);
+  pinMode(motor,OUTPUT);
+  pinMode(buzzer,OUTPUT);
+  Serial.begin(9600);
+  
+}
+
+void loop()
+{
+  bool swInput=digitalRead(sw);
+  bool sensorInput=digitalRead(sensor);
+  bool IRInput=digitalRead(IR);
+  Serial.print("swInput:");
+  Serial.println(swInput);
+  Serial.print("sensorInput:");
+  Serial.println(sensorInput);
+  Serial.print("IRInput:");
+  Serial.println(IRInput);
+  Serial.print("flag:");
+  Serial.println(flag);
+  delay(1000);
+
+ 
+  if(swInput==0&&flag==1)
+  {
+    if(sensorInput==1&&IRInput==1)
+    {digitalWrite(motor, LOW);}
+    else
+    {analogWrite(motor, 10);
+     digitalWrite(buzzer, HIGH);
+     delay(2000);
+     digitalWrite(motor, HIGH);
+     digitalWrite(buzzer, LOW);
+    flag=0;}
+      }
+  else if (flag==0&&swInput==1)
+  {flag=1;}
+  
+  else
+  {digitalWrite(motor, HIGH);
+   digitalWrite(buzzer, LOW);
+   }
+   
+}
